@@ -2,10 +2,6 @@ from parse_tools import *
 import unittest
 import string
 
-# TODO:
-# - Consider testing extract_sentences on tweets
-# - Document that tests check behavior, and do not correspond 1-to-1 with parse_tools methods
-# - Verify all string methods on null string (also consider trying characters)
 class TestParseTool(unittest.TestCase):
 
     def test_fix_ats(self):
@@ -69,31 +65,6 @@ class TestParseTool(unittest.TestCase):
         self.assertFalse(is_proper_sentence("sentence without an initial capital letter."))
         self.assertFalse(is_proper_sentence("sentence without an initial capital letter and no punctuation"))
 
-
-    # def test_shorten_dot_sequences_qualifying_strings(self):
-    #     """
-    #         Verify that shorten_dot_sequences can shorten all sequences of more than three periods to just three.
-    #     """
-    #     self.assertEqual(shorten_dot_sequences("...."), "...")
-    #     self.assertEqual(shorten_dot_sequences("....."), "...")
-    #     self.assertEqual(shorten_dot_sequences("......"), "...")
-    #     self.assertEqual(shorten_dot_sequences("Phrase......"), "Phrase...")
-    #     self.assertEqual(shorten_dot_sequences("......Phrase"), "...Phrase")
-    #     self.assertEqual(shorten_dot_sequences("Phrase......Phrase"), "Phrase...Phrase")
-    #
-    # def test_shorten_dot_sequences_qualifying_strings(self):
-    #     """
-    #         Verify that shorten_dot_sequences leaves strings that do not have sequences of three dots or more alone
-    #     """
-    #     self.assertEqual(shorten_dot_sequences("..."), "...")
-    #     self.assertEqual(shorten_dot_sequences(".."), "..")
-    #     self.assertEqual(shorten_dot_sequences("."), ".")
-    #     self.assertEqual(shorten_dot_sequences(""), "")
-    #     self.assertEqual(shorten_dot_sequences("String with no dots"), "String with no dots")
-    #     self.assertEqual(shorten_dot_sequences("String with two dots.."), "String with two dots..")
-    #     self.assertEqual(shorten_dot_sequences("String with three dots..."), "String with three dots...")
-    #     self.assertEqual(shorten_dot_sequences("String with three dots...followed by text"), "String with three dots...followed by text")
-
     def test_replace_all_replaced(self):
         """
             Verify that replace_all can correctly replace characters in the string
@@ -139,13 +110,6 @@ class TestParseTool(unittest.TestCase):
         self.assertEqual(split_join("string with \t tab"), "string with tab")
         self.assertEqual(split_join("string with carriage return\n"), "string with carriage return")
         self.assertEqual(split_join("string with tab\t"), "string with tab")
-
-    # def test_split_join_weird_strings(self):
-    #     """
-    #         Verify behavior of split/join string combo on aternative strings.
-    #     """
-    #     self.assertEqual(split_join(''), '')
-    #     self.assertEqual(split_join(' '), '')
 
     def test_punctuate_space_last_char_punctuation_applied(self):
         """

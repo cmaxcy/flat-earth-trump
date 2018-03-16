@@ -5,8 +5,6 @@ import os
 import time
 from parse_tools import *
 
-# TODO:
-# - Clarify in tests which functions have been assumed to already have been tested
 class TestGrammar(unittest.TestCase):
 
     def test_label_apply(self):

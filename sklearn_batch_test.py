@@ -6,7 +6,6 @@ import os
 
 # TODO:
 # - Test clobber functonality of folder writing
-
 class TestSklearnBatch(unittest.TestCase):
 
     def test_train_new_models_independent(self):
@@ -323,8 +322,6 @@ class TestSklearnBatch(unittest.TestCase):
 
         self.assertIn('new_model', test_sklearn_batch.model_dict.keys())
 
-    # TODO:
-    # implement
     def test_train_new_unoriginal_model_name(self):
         '''
             Verify behavior when attempting to train a new model whose name

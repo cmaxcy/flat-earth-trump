@@ -1,18 +1,10 @@
 import unittest
 from stat_tools import *
-# from custom_test_assertions import *
 import pandas as pd
 import numpy as np
 
 # TODO:
-# - Consider testing a wider variety of types of elemements. Some methods require
-#   elements that are hashable. For those that do, link to a description
 # - Note that some testing methods are probabalistic (small chance of false negative)
-# - Test that sample can be passed data from a python list, or numpy array
-# - Could there be a way to prevent the 100,000 sample process from being repeated?
-# - Build a wider variety of distributions
-# - Verify key error is thrown when non-existant column name passed
-# - Decide how NaN's in elements or probabilities should be treated
 class StatToolsTest(unittest.TestCase):
 
     def test_apply_temperature_regular(self):
@@ -105,14 +97,6 @@ class StatToolsTest(unittest.TestCase):
             temperature = i / 10
             scaled_probabilities = apply_temperature(test_probabilities, temperature)
             self.assertAlmostEqual(sum(scaled_probabilities), 1, places=5)
-
-    # NOTE: not currently being checked for
-    # def test_apply_temperature_invalid_probabilities(self):
-    #     """
-    #         Verify that temperature will not be applied to probabilities that
-    #         do not approximately sum to 1.
-    #     """
-    #     self.fail('Test not implemented')
 
     def setUp(self):
         """
@@ -258,102 +242,6 @@ class StatToolsTest(unittest.TestCase):
         actual_sampled_distribution = element_distribution(sampled_elements)
 
         pd.testing.assert_frame_equal(expected_sampled_distribution, actual_sampled_distribution, check_less_precise=2)
-
-    # def test_sample_probabilities_contained_single_item(self):
-    #     """
-    #         Verify that sampling from a distribution with one item (occuring with probability 1 of course) produces the expected results.
-    #
-    #         Testing methods assumes that element_distribution works properly.
-    #     """
-    #     test_data = pd.DataFrame({
-    #         'elements': ['a'],
-    #         'probabilities': [1.0]
-    #     })
-    #     expected_distribution = pd.Series({'a': 1.0})
-    #     observations = [sample(test_data, element_column_name='elements', probability_column_name='probabilities') for _ in range(100000)]
-    #     observed_distribution = element_distribution(observations)
-    #     self.assertSeriesAlmostEqual(expected_distribution, observed_distribution, places=2)
-
-    # def test_sample_probabilities_not_contained(self):
-    #     """
-    #         Verify that sampling from a distribution where the probabilities are not given produces uniform distribution.
-    #
-    #         Testing methods assumes that element_distribution works properly.
-    #     """
-    #     test_data = pd.DataFrame({
-    #         'elements': ['a', 'b', 'c']
-    #     })
-    #     expected_distribution = pd.Series({
-    #         'a': .333, 'b': .333, 'c': .333
-    #     })
-    #     observations = [sample(test_data, element_column_name='elements') for _ in range(100000)]
-    #     observed_distribution = element_distribution(observations)
-    #     self.assertSeriesAlmostEqual(expected_distribution, observed_distribution, places=2)
-
-    # def test_sample_probabilities_not_contained_single_item(self):
-    #     """
-    #         Verify that sampling from a distribution with one item has a probability of 1 inferred and distribution follows.
-    #
-    #         Testing methods assumes that element_distribution works properly.
-    #     """
-    #     test_data = pd.DataFrame({
-    #         'elements': ['a']
-    #     })
-    #     expected_distribution = pd.Series({'a': 1.0})
-    #     observations = [sample(test_data, element_column_name='elements') for _ in range(100000)]
-    #     observed_distribution = element_distribution(observations)
-    #     self.assertSeriesAlmostEqual(expected_distribution, observed_distribution, places=2)
-
-    # def test_sample_invalid_element_column_name(self):
-    #     """
-    #         Verify that attempting to sample dataframes elements from an invalid column is handled correctly.
-    #     """
-    #     test_data = pd.DataFrame({
-    #         'elements': ['a', 'b', 'c']
-    #     })
-    #     self.assertRaises(KeyError, sample, test_data, element_column_name='alternative name')
-    #
-    # def test_sample_invalid_probability_column_name(self):
-    #     """
-    #         Verify that attempting to sample dataframes probabilities from an invalid column is handled correctly.
-    #     """
-    #     test_data = pd.DataFrame({
-    #         'elements': ['a', 'b', 'c'],
-    #         'probabilities': [.25, .25, .5]
-    #     })
-    #     self.assertRaises(KeyError, sample, test_data, element_column_name='elements', probability_column_name='alternative name')
-    #
-    # def test_sample_invalid_probabilies(self):
-    #     """
-    #         Verify that invalid probabilities (ones that do not sum to 1) are handled correctly.
-    #     """
-    #
-    #     # Probabilities sum to .75
-    #     test_data = pd.DataFrame({
-    #         'elements': ['a', 'b', 'c'],
-    #         'probabilities': [.25, .25, .25]
-    #     })
-    #     self.assertRaises(ValueError, sample, test_data, element_column_name='elements', probability_column_name='probabilities')
-    #
-    #     # Probabilities sum to 1.05
-    #     test_data = pd.DataFrame({
-    #         'elements': ['a', 'b', 'c'],
-    #         'probabilities': [.25, .25, .55]
-    #     })
-    #     self.assertRaises(ValueError, sample, test_data, element_column_name='elements', probability_column_name='probabilities')
-
-    #
-    # def test_sample_invalid_probability_column_name(self):
-    #     self.fail("Test has not been implemented")
-    #
-    # def test_sample_probabilities_not_contained(self):
-    #     self.fail("Test has not been implemented")
-    #
-    # def test_combine_distributions_probabilities_given(self):
-    #     self.fail("Test has not been implemented")
-    #
-    # def test_combine_distributions_uniform_probability_inferred(self):
-    #     self.fail("Test has not been implemented")
 
     def test_combine_distributions_given_both_probabilities(self):
         test_distribution_1 = pd.DataFrame({
