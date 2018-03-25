@@ -3,7 +3,7 @@ import json
 import unittest
 import os
 import time
-from parse_tools import *
+from parse_tools import ParseTools
 
 # TODO:
 # - Test changes to get_avg_error_func

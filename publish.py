@@ -3,18 +3,17 @@ from tweet_tool import *
 import time
 from random import shuffle
 import pandas as pd
-from parse_tools import *
+from parse_tools import ParseTools
 from tweet_generation import *
 from textgenrnn import textgenrnn
-from tweet_clean import *
 from batch_grammar_classifier import BatchGrammarClassifier
 
 # Generate tweets
 model = textgenrnn('textgenrnn_FET_model')
-generated_tweets = generate(model, gen_count=100, temperature=.6)
+generated_tweets = generate(model, gen_count=1000, temperature=.6)
 
 # Apply simple fixes to tweets (@ correction, apostrophe insertion, etc.)
-cleaned_tweets = clean_tweets(generated_tweets)
+cleaned_tweets = ParseTools.clean_tweets(generated_tweets)
 
 # Sort tweets by calculated grammar score
 bgc = BatchGrammarClassifier.load_from_folder('grammar_models')

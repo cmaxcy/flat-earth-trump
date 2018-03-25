@@ -6,7 +6,7 @@ from sklearn.externals import joblib
 import pickle
 import shutil
 from grammar_object import Grammar
-from parse_tools import *
+from parse_tools import ParseTools
 from stat_tools import *
 
 class BatchGrammarClassifier:
@@ -20,8 +20,8 @@ class BatchGrammarClassifier:
 
         # Grammar transformation functions
         def replace_ats_with_John(string):
-            return replace_ats(string, "John")
-        args_list = [None, remove_ats, remove_hts, replace_ats_with_John, [remove_hts, remove_ats], [remove_hts, replace_ats_with_John], [remove_ats, replace_ats_with_John], [remove_hts, remove_ats, replace_ats_with_John]]
+            return ParseTools.replace_ats(string, "John")
+        args_list = [None, ParseTools.remove_ats, ParseTools.remove_hts, replace_ats_with_John, [ParseTools.remove_hts, ParseTools.remove_ats], [ParseTools.remove_hts, replace_ats_with_John], [ParseTools.remove_ats, replace_ats_with_John], [ParseTools.remove_hts, ParseTools.remove_ats, replace_ats_with_John]]
         func_list = [grammar.get_avg_error_func(args) for args in args_list]
 
         self.grammar_functions = func_list

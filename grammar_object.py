@@ -1,6 +1,6 @@
 import json
 import language_check
-from parse_tools import *
+from parse_tools import ParseTools
 import itertools
 
 class Grammar:

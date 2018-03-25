@@ -6,7 +6,7 @@ from textgenrnn.textgenrnn import textgenrnn_encode_sequence
 from stat_tools import *
 
 from textgenrnn import textgenrnn
-from parse_tools import *
+from parse_tools import ParseTools
 import re
 import time
 
@@ -65,7 +65,7 @@ def generate(model, gen_count, temperature, weight_adjust={'.': 2, '?': 2, '!': 
 
         # If generation was able to finish (as opposed to being manually stopped),
         # and if tweet contains letters (is not just series of symbols)
-        if generation[-3:] == '<s>' and contains_letters(generation[:-3]):
+        if generation[-3:] == '<s>' and ParseTools.contains_letters(generation[:-3]):
 
             # Clip stop character and save tweet
             generation = generation[:-3]
