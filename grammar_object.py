@@ -30,59 +30,15 @@ class Grammar:
     def cartesian_product(*args):
         return list(itertools.product(*args))
 
-    @staticmethod
-    def sequify_string(string, n, only_words=True, transformations=None):
-        """
-            Returns all word sequences in string of length n in the order in which
-            they occur. Word sequences are returned as full strings. If only words is specified, punctuation and other
-            symbols will be ignored. Transformations will be applied to string in the order in which they appear
-            before process is started (identity transformation applied by default).
-        """
-
-        if transformations is None:
-            transformations = [lambda x: x]
-
-        if type(transformations) != list:
-            transformations = [transformations]
-
-        for transformation in transformations:
-            string = transformation(string)
-
-        if only_words:
-            string_pieces = extract_words(string)
-        else:
-            string_pieces = string.split()
-
-        sequences = Grammar.n_length_sequences(string_pieces, n)
-        return list(map(' '.join, sequences))
-
-    @staticmethod
-    def label_apply(data, functions):
-        """
-            Maps functions to data and stores in dataframe with column names
-            representing name of applied functions.
-        """
-
-        df = pd.DataFrame()
-
-        df['data'] = data
-
-        for function in functions:
-            applied = list(map(function, data))
-            df[function.__name__] = applied
-
-        return df
-
-    def get_avg_error_func(self, n, only_words, transformations):
+    def get_avg_error_func(self, transformations):
         """
             Returns function for applying the desired transformations to string and returning the average number of errors.
         """
 
         def avg_error_func(x):
-            if len(self.sequify_string(x, n, only_words, transformations)) == 0:
-                return 0
-
-            return sum(map(self.count_phrase_errors, self.sequify_string(x, n, only_words, transformations))) / len(self.sequify_string(x, n, only_words, transformations))
+            for transformation in transformations:
+                x = transformation(x)
+            return self.count_phrase_errors(x)
 
         if transformations is None:
             identity_func = lambda x: x
@@ -93,21 +49,8 @@ class Grammar:
             transformations = [transformations]
 
         transformtions_names = '-'.join([transformation.__name__ for transformation in transformations])
-
-        avg_error_func.__name__ = 'avg_error_func_n-' + str(n) + '_only_words-' + str(only_words) + '_transformations-' + transformtions_names
+        avg_error_func.__name__ = 'avg_error_func' + '_transformations-' + transformtions_names
         return avg_error_func
-
-    @staticmethod
-    def n_length_sequences(base_list, n):
-        """
-            Returns all contiguous sequences of length n in list.
-
-            Credit: https://stackoverflow.com/questions/6670828/find-all-consecutive-sub-sequences-of-length-n-in-a-sequence
-        """
-        if n < 1 or n > len(base_list):
-            return []
-
-        return list(map(list, zip(*(base_list[i:] for i in range(n)))))
 
     def count_phrase_errors(self, string):
         """
