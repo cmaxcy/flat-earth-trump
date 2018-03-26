@@ -1,7 +1,7 @@
 import json
 import language_check
 from parse_tools import ParseTools
-import itertools
+
 
 class Grammar:
 
@@ -25,10 +25,6 @@ class Grammar:
         # Write json to file
         with open(phrase_cache_path, "w") as text_file:
             text_file.write(dumped)
-
-    @staticmethod
-    def cartesian_product(*args):
-        return list(itertools.product(*args))
 
     def get_avg_error_func(self, transformations):
         """

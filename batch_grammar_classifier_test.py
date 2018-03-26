@@ -8,6 +8,12 @@ import os
 
 class TestBatchGrammarClassifier(unittest.TestCase):
 
+    def test_power_set(self):
+        test_set = [1, 2, 3]
+        expected_power_set = [None, [1], [2], [3], [1, 2], [1, 3], [2, 3], [1, 2, 3]]
+        actual_power_set = BatchGrammarClassifier.power_set(test_set)
+        self.assertEqual(expected_power_set, actual_power_set)
+
     def test_label_apply(self):
 
         def test_func_1(arg):

@@ -21,6 +21,12 @@ class ParseTools:
     apostrophe_re = r"[\w]+'[\w]+"
 
     @staticmethod
+    def replace_ats_with(replacement):
+        replacement_function = lambda x: ParseTools.replace_ats(x, replacement)
+        replacement_function.__name__ = 'replace_ats_with_' + replacement
+        return replacement_function
+
+    @staticmethod
     def apply_functions(x, fs):
         for f in fs:
             x = f(x)

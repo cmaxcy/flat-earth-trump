@@ -10,25 +10,6 @@ from parse_tools import ParseTools
 
 class TestGrammar(unittest.TestCase):
 
-    def test_cartesian_product_lists(self):
-        """
-            Verify that cartesian product can be calculated with lists of items.
-        """
-        self.assertEqual(Grammar.cartesian_product(['a', 'b'], [1, 2]), [('a', 1), ('a', 2), ('b', 1), ('b', 2)])
-
-    def test_cartesian_product_single_items(self):
-        """
-            Verify that cartesian product can be calculated with single items.
-        """
-
-        # Arguments must be iterables
-        self.assertRaises(TypeError, Grammar.cartesian_product, 'a', 1)
-
-        self.assertEqual(Grammar.cartesian_product(['a'], [1]), [('a', 1)])
-
-        # Strings are iterables
-        self.assertEqual(Grammar.cartesian_product('a', 'b'), [('a', 'b')])
-
     def setUp(self):
         """
             Create a sample phrase cache json file.

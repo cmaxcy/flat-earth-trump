@@ -8,6 +8,7 @@ import shutil
 from grammar_object import Grammar
 from parse_tools import ParseTools
 from stat_tools import *
+import itertools
 
 class BatchGrammarClassifier:
 
@@ -18,18 +19,22 @@ class BatchGrammarClassifier:
 
         self.name = name
 
-        # Grammar transformation functions
-        def replace_ats_with_John(string):
-            return ParseTools.replace_ats(string, "John")
-        args_list = [None, ParseTools.remove_ats, ParseTools.remove_hts, replace_ats_with_John, [ParseTools.remove_hts, ParseTools.remove_ats], [ParseTools.remove_hts, replace_ats_with_John], [ParseTools.remove_ats, replace_ats_with_John], [ParseTools.remove_hts, ParseTools.remove_ats, replace_ats_with_John]]
-        func_list = [grammar.get_avg_error_func(args) for args in args_list]
-
-        self.grammar_functions = func_list
+        transformation_functions = [ParseTools.remove_ats, ParseTools.remove_hts, ParseTools.replace_ats_with("John"), ParseTools.replace_ats_with("go")]
+        trans_func_powerset = self.power_set(transformation_functions)
+        self.grammar_functions = [grammar.get_avg_error_func(subset) for subset in trans_func_powerset]
 
         if model_dict is None:
             self.model_dict = dict()
         else:
             self.model_dict = model_dict
+
+    @staticmethod
+    def power_set(iterable):
+        s = list(iterable)
+        tuple_power_set = list(itertools.chain.from_iterable(itertools.combinations(s, r) for r in range(len(s)+1)))
+        listified = list(map(list, tuple_power_set))
+        listified[0] = None
+        return listified
 
     @staticmethod
     def label_apply(data, functions):
@@ -114,7 +119,7 @@ class BatchGrammarClassifier:
         example_word_counts = []
 
         for example in examples:
-            example_words = extract_words(example)
+            example_words = ParseTools.extract_words(example)
             all_words += example_words
             example_word_counts.append(len(example_words))
 
@@ -172,6 +177,7 @@ class BatchGrammarClassifier:
 
         return BatchGrammarClassifier(name=name, model_dict=model_dict)
 
+    # TODO: Document
     def rank(self, examples):
 
         scores = self.predict(examples)
